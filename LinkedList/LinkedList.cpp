@@ -4,26 +4,39 @@ using namespace std;
 
 struct node
 {
-    int data;
+    float data;
     struct node* next;
 };
 
+
 int isempty(struct node*);
-struct node* CreateNode(int);
+struct node* newNode(float);
 void display(struct node*);
-int sizeLL(struct node* header);
+int sizeLL(struct node*);
+struct node* insertFront(struct node*, float);
+struct node* insertBack(struct node*, float);
+void insertAfter(struct node*, float);
+struct node* deleteFront(struct node*);
+struct node* deleteBack(struct node*);
+void deleteAfter(struct node*);
+float averagelist(struct node*);
+
 
 int main()
 {
-    struct node* header;
+    struct node* mylist = NULL ;
+    
 
-    header = CreateNode(2);
-    header->next = CreateNode(4);
-    header->next->next = CreateNode(6);
-    header->next->next->next = CreateNode(8);
-    header->next->next->next->next = CreateNode(10);
-    display(header);
-    cout << "Your List has " << sizeLL(header) << " nodes." << endl;
+   mylist = insertBack(mylist, 1.5);
+   mylist = insertFront(mylist, 2.5);
+   mylist = deleteBack(mylist);
+   mylist = insertBack(mylist, 4.5);
+  
+   display(mylist);
+
+   
+
+   cout << "The average of elements in your List is " << averagelist(mylist) << endl;
 
     system("PAUSE");
     return 0;
@@ -35,12 +48,14 @@ int isempty(struct node* header)
 
 }
 
-struct node* CreateNode(int item)
+struct node* newNode(float item)
 {
     struct node* temp;
 
     temp = (struct node*)malloc(sizeof(node));
-    temp->data = item;
+
+    temp -> data = item;
+
     temp->next = NULL;
     return temp;
 }
@@ -48,17 +63,14 @@ struct node* CreateNode(int item)
 void display(struct node* disp)
 {
     struct node* temp = disp;
-    if (isempty(temp))
-        cout << "There is no node in the List. List is Empty." << endl;
-    else
-    {
+ 
         while (temp != NULL)
         {
             cout << temp->data << "\t";
             temp = temp->next;
         }
         cout << endl;
-    }
+    
 }
 
 int sizeLL(struct node* header)
@@ -75,6 +87,108 @@ int sizeLL(struct node* header)
             cnt++;
             temp = temp->next;
         }
-        return cnt;
     }
+    return cnt;
+}
+struct node* insertFront(struct node* insf, float item) 
+{
+    struct node* temp;
+
+    temp = newNode(item);
+    temp->next = insf;
+    insf = temp;
+
+    return insf;
+}
+
+struct node* insertBack(struct node* insb, float item)
+{
+    struct node* temp, *insbtemp;
+
+    temp = newNode(item);
+
+    if (isempty(insb))
+    {
+        insb = temp;
+        return insb;
+    }
+    insbtemp = insb;
+    while (insbtemp->next != NULL)
+        insbtemp = insbtemp->next;
+    insbtemp->next = temp;      
+    return insb;
+}
+
+void insertAfter(struct node* insaft, float item)
+{
+    struct node* temp;
+    temp = newNode(item);
+
+    temp->next = insaft->next;
+
+    insaft->next = temp;
+}
+
+struct node* deleteFront(struct node* delf)
+{
+    struct node* temp;
+    
+    if (delf == NULL)
+        return delf;
+    temp = delf;
+
+    delf = delf->next;
+    free(temp);
+
+    return delf;
+}
+
+struct node* deleteBack(struct node* delb)
+{
+    struct node* temp, *delbtemp;
+
+    if (delb == NULL)
+        return delb;
+
+    delbtemp = delb;
+
+    while(delbtemp->next->next != NULL)
+        delbtemp = delbtemp->next;
+
+    temp = delbtemp->next;
+    delbtemp->next = NULL;
+    free(temp);
+    
+    return delb;
+}
+
+void deleteAfter(struct node* delaft)
+{
+    struct node* temp;
+
+    if (delaft->data == NULL || delaft == NULL)
+        return;
+    temp = delaft->next;
+
+    delaft->next = temp->next;
+
+    free(temp);
+}
+
+float averagelist(struct node* average)
+{
+    struct node* temp = average;
+    float sum = 0, avg;
+    int cnt = 0;
+
+    while (temp != NULL)
+    {
+        sum += temp->data;
+        cnt++;
+
+        temp = temp->next;
+    }
+    avg = sum / cnt;
+
+    return avg;
 }
