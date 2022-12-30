@@ -25,18 +25,24 @@ float averagelist(struct node*);
 int main()
 {
     struct node* mylist = NULL ;
-    
+    float average, elements;
+    int num = 0;
 
-   mylist = insertBack(mylist, 1.5);
-   mylist = insertFront(mylist, 2.5);
-   mylist = deleteBack(mylist);
-   mylist = insertBack(mylist, 4.5);
-  
-   display(mylist);
+    cout << "How many numbers do you want to add to your list?: ";
+    cin >> num;
 
-   
+    for (int i = 1; i <= num; i++) 
+    {
+        cout << "\nPlease enter element " << i << " in the list: ";
+        cin >> elements;
+        mylist = insertBack(mylist, elements);
+    }
 
-   cout << "The average of elements in your List is " << averagelist(mylist) << endl;
+    cout << "\nYour list has the following elements: ";
+    display(mylist);
+
+   average = averagelist(mylist);
+   cout << "\nThe average value of elements in your List is: " << average << endl;
 
     system("PAUSE");
     return 0;
