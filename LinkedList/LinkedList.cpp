@@ -4,7 +4,7 @@ using namespace std;
 
 struct node
 {
-    float data;
+    char data;
     struct node* next;
 };
 
@@ -14,26 +14,28 @@ struct node* newNode(float);
 void display(struct node*);
 int sizeLL(struct node*);
 struct node* insertFront(struct node*, float);
-struct node* insertBack(struct node*, float);
+struct node* insertBack(struct node*, char);
 void insertAfter(struct node*, float);
 struct node* deleteFront(struct node*);
 struct node* deleteBack(struct node*);
 void deleteAfter(struct node*);
 float averagelist(struct node*);
+int countA(struct node*);
 
 
 int main()
 {
     struct node* mylist = NULL ;
-    float average, elements;
+    float average;
+    char elements;
     int num = 0;
 
-    cout << "How many numbers do you want to add to your list?: ";
+    cout << "How many grades do you want to add to your list?: ";
     cin >> num;
 
     for (int i = 1; i <= num; i++) 
     {
-        cout << "\nPlease enter element " << i << " in the list: ";
+        cout << "\nPlease enter grade " << i << " in the list: ";
         cin >> elements;
         mylist = insertBack(mylist, elements);
     }
@@ -41,8 +43,9 @@ int main()
     cout << "\nYour list has the following elements: ";
     display(mylist);
 
-   average = averagelist(mylist);
-   cout << "\nThe average value of elements in your List is: " << average << endl;
+    cout << "The number of A_grades in your list is: " << countA(mylist) << endl;
+   //average = averagelist(mylist);
+   //cout << "\nThe average value of elements in your List is: " << average << endl;
 
     system("PAUSE");
     return 0;
@@ -107,7 +110,7 @@ struct node* insertFront(struct node* insf, float item)
     return insf;
 }
 
-struct node* insertBack(struct node* insb, float item)
+struct node* insertBack(struct node* insb, char item)
 {
     struct node* temp, *insbtemp;
 
@@ -197,4 +200,18 @@ float averagelist(struct node* average)
     avg = sum / cnt;
 
     return avg;
+}
+
+int countA(struct node* grades)
+{
+    struct node* temp = grades;
+    int cnt=0;
+
+    while (temp != NULL)
+    {
+        if (grades->data == 'A')
+            cnt++;
+        temp = temp->next;
+    }
+    return cnt;
 }
