@@ -209,7 +209,7 @@ int countA(struct node* grades)
 
     while (temp != NULL)
     {
-        if (grades->data == 'A')
+        if (temp->data == 'A')
             cnt++;
         temp = temp->next;
     }
