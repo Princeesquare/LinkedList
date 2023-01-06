@@ -1,10 +1,10 @@
 #include <iostream>
-
 using namespace std;
+
 
 struct node
 {
-    char data;
+    int data;
     struct node* next;
 };
 
@@ -14,13 +14,17 @@ struct node* newNode(float);
 void display(struct node*);
 int sizeLL(struct node*);
 struct node* insertFront(struct node*, float);
-struct node* insertBack(struct node*, char);
+struct node* insertBack(struct node*, int);
 void insertAfter(struct node*, float);
 struct node* deleteFront(struct node*);
 struct node* deleteBack(struct node*);
 void deleteAfter(struct node*);
 float averagelist(struct node*);
 int countA(struct node*);
+void moveforwardlist(struct node*, struct node*);
+struct node* moveback(struct node*, struct node*);
+struct node* loadlist(struct node*, int[], int);
+struct node* reverse(struct node* header);
 
 
 int main()
@@ -29,16 +33,34 @@ int main()
     float average;
     char elements;
     int num = 0;
+    const int size = 10;
+    int arr[size] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
+    mylist = loadlist(mylist, arr, size);
+    display(mylist);
+    
+    moveforwardlist(mylist, mylist->next->next);
+    display(mylist);
+   // mylist = moveback(mylist, mylist->next->next->next);
+    //display(mylist);
+    mylist = reverse(mylist);
+    display(mylist);
+
+
+
+/*
     cout << "How many grades do you want to add to your list?: ";
     cin >> num;
 
-    for (int i = 1; i <= num; i++) 
+    for (int i = 0; i < num; i++)
     {
         cout << "\nPlease enter grade " << i << " in the list: ";
-        cin >> elements;
-        mylist = insertBack(mylist, elements);
+        cin >> arr[i];
+        mylist = insertBack(mylist,i);
     }
+
+
+
 
     cout << "\nYour list has the following elements: ";
     display(mylist);
@@ -46,6 +68,7 @@ int main()
     cout << "The number of A_grades in your list is: " << countA(mylist) << endl;
    //average = averagelist(mylist);
    //cout << "\nThe average value of elements in your List is: " << average << endl;
+ */
 
     system("PAUSE");
     return 0;
@@ -110,7 +133,7 @@ struct node* insertFront(struct node* insf, float item)
     return insf;
 }
 
-struct node* insertBack(struct node* insb, char item)
+struct node* insertBack(struct node* insb, int item)
 {
     struct node* temp, *insbtemp;
 
@@ -214,4 +237,60 @@ int countA(struct node* grades)
         temp = temp->next;
     }
     return cnt;
+}
+
+void moveforwardlist(struct node* header, struct node* movenode)
+{
+    struct node* temp = NULL;
+    struct node* headertemp = header;
+
+    while (headertemp->next != movenode)
+        headertemp = headertemp->next;
+
+        temp = movenode->next->next;
+        headertemp->next = movenode->next;
+        movenode->next = temp;
+        headertemp->next->next = movenode;
+}
+
+struct node* loadlist(struct node* header, int arr[], int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+       header = insertBack(header, arr[i]);
+    }
+    return header;
+}
+
+struct node* moveback(struct node* header, struct node* movenode)
+{
+    struct node* temp = NULL;
+    struct node* headertemp = header;
+
+    while (headertemp->next != movenode)
+        headertemp = headertemp->next;
+
+    temp = movenode->next->next;
+
+    headertemp->next = movenode->next;
+    movenode->next = temp;
+    headertemp->next->next = movenode;
+
+    return header;
+}
+
+struct node* reverse(struct node*header) {
+    struct node* temp = NULL;
+    struct node* prevnode = NULL;
+    struct node* afternode = header;
+
+    while (afternode != NULL) 
+    {
+        temp = afternode->next;
+        afternode->next = prevnode;
+        prevnode = afternode;
+        afternode = temp;
+    }
+    header = prevnode;
+    return header;
 }
