@@ -1,3 +1,4 @@
+
 #include <iostream>
 using namespace std;
 
@@ -26,6 +27,7 @@ struct node* moveback(struct node*, struct node*);
 struct node* loadlist(struct node*, int[], int);
 struct node* reverse(struct node* header);
 struct node* copyLL(struct node*);
+void delallist(struct node*);
 
 
 int main()
@@ -46,10 +48,12 @@ int main()
    // mylist = moveback(mylist, mylist->next->next->next);
     //display(mylist);
     //mylist = reverse(mylist);
-    list2 = copyLL(mylist);
-    cout << "\nlist After Copy" << endl;
+    //list2 = copyLL(mylist);
+   // cout << "\nlist After Copy" << endl;
    // display(mylist);
-    display(list2);
+    //display(list2);
+    delallist(mylist);
+    //display(mylist);
 
 
 
@@ -316,4 +320,16 @@ struct node* copyLL(struct node* l1)
     }
     copy->next = NULL;
     return l2;
+}
+void delallist(struct node* mylist)
+{
+    struct node* temp ;
+    while (mylist != NULL)
+    {
+        temp = mylist;
+        mylist = mylist->next;
+        free(temp);
+    }
+    cout << "\nThere is no more node in the list ";
+    //return mylist;
 }
