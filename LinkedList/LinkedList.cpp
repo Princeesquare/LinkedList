@@ -25,11 +25,13 @@ void moveforwardlist(struct node*, struct node*);
 struct node* moveback(struct node*, struct node*);
 struct node* loadlist(struct node*, int[], int);
 struct node* reverse(struct node* header);
+void copyLL(struct node* , struct node*);
 
 
 int main()
 {
     struct node* mylist = NULL ;
+    struct node* list2 = NULL;
     float average;
     char elements;
     int num = 0;
@@ -39,12 +41,15 @@ int main()
     mylist = loadlist(mylist, arr, size);
     display(mylist);
     
-    moveforwardlist(mylist, mylist->next->next);
-    display(mylist);
+   // moveforwardlist(mylist, mylist->next->next);
+   // display(mylist);
    // mylist = moveback(mylist, mylist->next->next->next);
     //display(mylist);
-    mylist = reverse(mylist);
+    //mylist = reverse(mylist);
+    copyLL(mylist, list2);
+    cout << "\nlist After Copy" << endl;
     display(mylist);
+    display(list2);
 
 
 
@@ -293,4 +298,17 @@ struct node* reverse(struct node*header) {
     }
     header = prevnode;
     return header;
+}
+
+void copyLL(struct node* l1, struct node* l2)
+{
+    struct node* temp = l1;
+    int x;
+
+    while (temp != NULL)
+    {
+        x = temp->data;
+        insertBack(l2, x);
+        temp = temp->next;
+    }
 }
